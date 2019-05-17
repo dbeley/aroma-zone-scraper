@@ -54,8 +54,8 @@ def get_specs(url):
             valeur = str(v.text.strip())
             product[intitule] = valeur
     except Exception as e:
-        logger.error(f"identity_card error : {e}")
-    logger.debug(f"product : {product}")
+        logger.error("identity_card error : %s", e)
+    logger.debug("product : %s", product)
     return product
 
 
@@ -67,7 +67,7 @@ def main():
 
     all_products = []
     for url_cat in urls_cat:
-        logger.debug(f"Catégorie : {url_cat}")
+        logger.debug("Catégorie : %s", url_cat)
         page_number = 1
         while True:
             url_cat = f"{url_cat.split('&p=', 1)[0]}&p={page_number}"
@@ -80,7 +80,7 @@ def main():
     all_products = list(itertools.chain.from_iterable(all_products))
     products_dict = {}
     for index, product in enumerate(all_products):
-        logger.debug(f"all_products : {index} - {product}")
+        logger.debug("all_products : %s - %s", index, product)
         product_dict = get_specs(product)
         products_dict[index] = product_dict
 
@@ -95,7 +95,7 @@ def main():
         print(f"Writing {filename}")
         df.to_csv(filename, sep=";")
     except Exception as e:
-        logger.error(f"Error exporting products_dict : {str(e)}")
+        logger.error("Error exporting products_dict : %s", str(e))
 
     print("Runtime : %.2f seconds" % (time.time() - temps_debut))
 
